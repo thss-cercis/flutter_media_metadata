@@ -1,1 +1,0 @@
-../../ios/Classes/Id3MetadataRetriever.swift

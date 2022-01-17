@@ -23,11 +23,4 @@ flutter:
       android:
         package: com.alexmercerind.flutter_media_metadata
         pluginClass: FlutterMediaMetadataPlugin
-      windows:
-        pluginClass: FlutterMediaMetadataPlugin
-      linux:
-        pluginClass: FlutterMediaMetadataPlugin
-      ios:
-        pluginClass: FlutterMediaMetadataPlugin
-      macos:
-        pluginClass: FlutterMediaMetadataPlugin
+
