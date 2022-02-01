@@ -6,15 +6,11 @@ import 'package:flutter/services.dart';
 var _kChannel = const MethodChannel('flutter_media_metadata');
 
 class MetadataRetriever {
-  static Future<Metadata> fromFile(
-    File file, {
-    bool createNewInstance: false,
-  }) async {
+  static Future<Metadata> fromFile(File file) async {
     var metadata = await _kChannel.invokeMethod(
       'MetadataRetriever',
       {
         'filePath': file.path,
-        'createNewInstance': createNewInstance,
       },
     );
     metadata['filePath'] = file.path;
