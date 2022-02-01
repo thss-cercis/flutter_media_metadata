@@ -13,7 +13,7 @@ class MetadataRetriever {
         'filePath': file.path,
       },
     );
-    metadata['filePath'] = file.path;
+    metadata['uri'] = file.path;
     return Metadata.fromJson(metadata);
   }
 }
