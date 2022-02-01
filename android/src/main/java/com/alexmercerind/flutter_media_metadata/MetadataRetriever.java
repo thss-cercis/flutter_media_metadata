@@ -41,7 +41,7 @@ public class MetadataRetriever extends MediaMetadataRetriever {
     metadata.put("writerName", extractMetadata(METADATA_KEY_WRITER));
     metadata.put("discNumber", extractMetadata(METADATA_KEY_DISC_NUMBER));
     metadata.put("mimeType", extractMetadata(METADATA_KEY_MIMETYPE));
-    metadata.put("trackDuration", extractMetadata(METADATA_KEY_DURATION));
+    metadata.put("duration", extractMetadata(METADATA_KEY_DURATION));
     metadata.put("bitrate", extractMetadata(METADATA_KEY_BITRATE));
     return metadata;
   }
