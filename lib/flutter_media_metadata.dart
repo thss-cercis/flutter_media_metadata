@@ -31,7 +31,7 @@ class Metadata {
   final String? writerName;
   final int? discNumber;
   final String? mimeType;
-  final int? trackDuration;
+  final int? duration;
   final int? bitrate;
   final Uint8List? albumArt;
   final String filePath;
@@ -49,7 +49,7 @@ class Metadata {
     this.writerName,
     this.discNumber,
     this.mimeType,
-    this.trackDuration,
+    this.duration,
     this.bitrate,
     this.albumArt,
     required this.filePath,
@@ -70,7 +70,7 @@ class Metadata {
         writerName: map['metadata']['writerName'],
         discNumber: _parse(map['metadata']['discNumber']),
         mimeType: map['metadata']['mimeType'],
-        trackDuration: _parse(map['metadata']['trackDuration']),
+        duration: _parse(map['metadata']['duration']),
         bitrate: _parse(map['metadata']['bitrate']),
         albumArt: map['albumArt'],
         filePath: map['filePath'],
@@ -89,7 +89,7 @@ class Metadata {
         'writerName': writerName,
         'discNumber': discNumber,
         'mimeType': mimeType,
-        'trackDuration': trackDuration,
+        'duration': duration,
         'bitrate': bitrate,
         'filePath': filePath,
       };
