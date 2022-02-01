@@ -33,36 +33,24 @@ public class FlutterMediaMetadataPlugin implements FlutterPlugin, MethodCallHand
 
     if (call.method.equals("MetadataRetriever")) {
       final String filePath = (String) call.argument("filePath");
-      boolean createNewInstance = false;
-      if (call.hasArgument("createNewInstance")) {
-        createNewInstance = (boolean) call.argument("createNewInstance");
-      }
-      if (createNewInstance) {
-        CompletableFuture.runAsync(new Runnable() {
-          @Override
-          public void run() {
-            MetadataRetriever retriever = new MetadataRetriever();
-            retriever.setFilePath(filePath);
-            final HashMap<String, Object> response = new HashMap<String, Object>();
-            response.put("metadata", retriever.getMetadata());
-            response.put("albumArt", retriever.getAlbumArt());
-            retriever.release();
-            new Handler(Looper.getMainLooper())
-                    .post(new Runnable() {
-                      @Override
-                      public void run() {
-                        result.success(response);
-                      }
-                    });
-          }
-        });
-      } else {
-        final HashMap<String, Object> response = new HashMap<String, Object>();
-        retriever.setFilePath(filePath);
-        response.put("metadata", retriever.getMetadata());
-        response.put("albumArt", retriever.getAlbumArt());
-        result.success(response);
-      }
+      CompletableFuture.runAsync(new Runnable() {
+        @Override
+        public void run() {
+          MetadataRetriever retriever = new MetadataRetriever();
+          retriever.setFilePath(filePath);
+          final HashMap<String, Object> response = new HashMap<String, Object>();
+          response.put("metadata", retriever.getMetadata());
+          response.put("albumArt", retriever.getAlbumArt());
+          retriever.release();
+          new Handler(Looper.getMainLooper())
+                  .post(new Runnable() {
+                    @Override
+                    public void run() {
+                      result.success(response);
+                    }
+                  });
+        }
+      });
     } else {
       result.notImplemented();
     }
