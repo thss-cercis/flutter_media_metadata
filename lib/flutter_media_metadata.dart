@@ -34,7 +34,7 @@ class Metadata {
   final int? duration;
   final int? bitrate;
   final Uint8List? albumArt;
-  final String filePath;
+  final String uri;
 
   const Metadata({
     this.trackName,
@@ -52,7 +52,7 @@ class Metadata {
     this.duration,
     this.bitrate,
     this.albumArt,
-    required this.filePath,
+    required this.uri,
   });
 
   factory Metadata.fromJson(dynamic map) => Metadata(
@@ -73,7 +73,7 @@ class Metadata {
         duration: _parse(map['metadata']['duration']),
         bitrate: _parse(map['metadata']['bitrate']),
         albumArt: map['albumArt'],
-        filePath: map['filePath'],
+        uri: map['uri'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,7 +91,7 @@ class Metadata {
         'mimeType': mimeType,
         'duration': duration,
         'bitrate': bitrate,
-        'filePath': filePath,
+        'uri': uri,
       };
 
   @override
