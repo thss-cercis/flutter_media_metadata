@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart' as path;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -46,11 +46,13 @@ class _MyAppState extends State<MyApp> {
         onPressed: () {
           FilePicker.platform.pickFiles()
             ..then(
-              (result) {
+              (result) async {
                 if (result == null) return;
                 if (result.count == 0) return;
-                MetadataRetriever.fromFile(
-                  File(result.files.first.path!),
+                print(Uri.file(result.files.first.path!));
+                MetadataRetriever.fromUri(
+                  Uri.file(result.files.first.path!),
+                  coverDirectory: (await path.getExternalStorageDirectory())!,
                 )
                   ..then(
                     (metadata) {
@@ -61,30 +63,6 @@ class _MyAppState extends State<MyApp> {
                               ? Axis.vertical
                               : Axis.horizontal,
                           children: [
-                            metadata.albumArt == null
-                                ? Container(
-                                    alignment: Alignment.center,
-                                    height: MediaQuery.of(context).size.height >
-                                            MediaQuery.of(context).size.width
-                                        ? MediaQuery.of(context).size.width
-                                        : 256.0,
-                                    width: MediaQuery.of(context).size.height >
-                                            MediaQuery.of(context).size.width
-                                        ? MediaQuery.of(context).size.width
-                                        : 256.0,
-                                    child: Text('null'),
-                                  )
-                                : Image.memory(
-                                    metadata.albumArt!,
-                                    height: MediaQuery.of(context).size.height >
-                                            MediaQuery.of(context).size.width
-                                        ? MediaQuery.of(context).size.width
-                                        : 256.0,
-                                    width: MediaQuery.of(context).size.height >
-                                            MediaQuery.of(context).size.width
-                                        ? MediaQuery.of(context).size.width
-                                        : 256.0,
-                                  ),
                             SizedBox(
                               width: 16.0,
                             ),
@@ -190,9 +168,8 @@ class _MyAppState extends State<MyApp> {
                                   ),
                                   DataRow(
                                     cells: [
-                                      DataCell(Text('trackDuration')),
-                                      DataCell(
-                                          Text('${metadata.trackDuration}')),
+                                      DataCell(Text('duration')),
+                                      DataCell(Text('${metadata.duration}')),
                                     ],
                                   ),
                                   DataRow(
@@ -203,8 +180,8 @@ class _MyAppState extends State<MyApp> {
                                   ),
                                   DataRow(
                                     cells: [
-                                      DataCell(Text('filePath')),
-                                      DataCell(Text('${metadata.filePath}')),
+                                      DataCell(Text('uri')),
+                                      DataCell(Text('${metadata.uri}')),
                                     ],
                                   ),
                                 ],
