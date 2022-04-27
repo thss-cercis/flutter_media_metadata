@@ -5,15 +5,10 @@ import android.media.MediaMetadataRetriever;
 import java.util.HashMap;
 
 public class MetadataRetriever extends MediaMetadataRetriever {
-    private String uri;
+    public String uri;
 
     public MetadataRetriever() {
         super();
-    }
-
-    public void setUri(String value) {
-        uri = value;
-        setDataSource(uri);
     }
 
     public HashMap<String, Object> getMetadata() {
