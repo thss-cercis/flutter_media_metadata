@@ -83,13 +83,16 @@ public class FlutterMediaMetadataPlugin implements FlutterPlugin, MethodCallHand
                     }
                     final File file = new File(coverDirectory[0] + "/" + (trackName + albumName + albumArtistName + ".PNG").replaceAll("[\\\\/:*?\"\"<>| ]", ""));
                     try {
-                        new File(coverDirectory[0]).mkdirs();
-                        if (!file.exists()) {
-                            file.createNewFile();
+                        byte[] embeddedPicture = retriever.getEmbeddedPicture();
+                        if (embeddedPicture != null) {
+                            new File(coverDirectory[0]).mkdirs();
+                            if (!file.exists()) {
+                                file.createNewFile();
+                            }
+                            final FileOutputStream fileOutputStream = new FileOutputStream(file);
+                            fileOutputStream.write(retriever.getEmbeddedPicture());
+                            fileOutputStream.close();
                         }
-                        final FileOutputStream fileOutputStream = new FileOutputStream(file);
-                        fileOutputStream.write(retriever.getEmbeddedPicture());
-                        fileOutputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
