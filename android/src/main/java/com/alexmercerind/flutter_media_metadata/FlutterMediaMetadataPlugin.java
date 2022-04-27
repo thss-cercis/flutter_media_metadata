@@ -52,6 +52,7 @@ public class FlutterMediaMetadataPlugin implements FlutterPlugin, MethodCallHand
                         input = new FileInputStream(uri[0]);
                         retriever.setDataSource(input.getFD());
                         final HashMap<String, Object> metadata = retriever.getMetadata();
+                        metadata.put("uri", uri[0]);
                         new Handler(Looper.getMainLooper())
                                 .post(new Runnable() {
                                     @Override
@@ -104,20 +105,24 @@ public class FlutterMediaMetadataPlugin implements FlutterPlugin, MethodCallHand
                         retriever.release();
                     } catch (FileNotFoundException fileNotFoundException) {
                         fileNotFoundException.printStackTrace();
+                        final HashMap<String, Object> metadata = new HashMap<>();
+                        metadata.put("uri", uri[0]);
                         new Handler(Looper.getMainLooper())
                                 .post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        result.success(new HashMap<String, Object>());
+                                        result.success(metadata);
                                     }
                                 });
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
+                        final HashMap<String, Object> metadata = new HashMap<>();
+                        metadata.put("uri", uri[0]);
                         new Handler(Looper.getMainLooper())
                                 .post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        result.success(new HashMap<String, Object>());
+                                        result.success(metadata);
                                     }
                                 });
                     }
