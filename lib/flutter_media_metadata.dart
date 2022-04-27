@@ -6,15 +6,16 @@ const _kChannel = MethodChannel('flutter_media_metadata');
 class MetadataRetriever {
   static Future<_Metadata> fromUri(
     Uri uri, {
+    Duration timeout: const Duration(milliseconds: 200),
     required Directory coverDirectory,
   }) async {
     var metadata = await _kChannel.invokeMethod(
       'MetadataRetriever',
       {
-        'uri': uri.toString(),
+        'uri': uri.toFilePath(),
         'coverDirectory': coverDirectory.path,
       },
-    );
+    ).timeout(timeout);
     return _Metadata.fromJson(metadata);
   }
 }
