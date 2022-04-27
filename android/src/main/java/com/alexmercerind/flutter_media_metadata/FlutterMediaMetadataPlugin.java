@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java9.util.concurrent.CompletableFuture;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -49,7 +50,7 @@ public class FlutterMediaMetadataPlugin implements FlutterPlugin, MethodCallHand
                     final MetadataRetriever retriever = new MetadataRetriever();
                     FileInputStream input = null;
                     try {
-                        input = new FileInputStream(uri[0]);
+                        input = new FileInputStream(Uri.parse(uri[0]).getPath());
                         retriever.setDataSource(input.getFD());
                         final HashMap<String, Object> metadata = retriever.getMetadata();
                         metadata.put("uri", uri[0]);

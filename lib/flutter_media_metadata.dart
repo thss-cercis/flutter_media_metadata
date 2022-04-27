@@ -9,14 +9,24 @@ class MetadataRetriever {
     Duration timeout: const Duration(milliseconds: 200),
     required Directory coverDirectory,
   }) async {
-    var metadata = await _kChannel.invokeMethod(
-      'MetadataRetriever',
-      {
-        'uri': uri.toFilePath(),
-        'coverDirectory': coverDirectory.path,
-      },
-    ).timeout(timeout);
-    return _Metadata.fromJson(metadata);
+    try {
+      final metadata = await _kChannel.invokeMethod(
+        'MetadataRetriever',
+        {
+          'uri': uri.toString(),
+          'coverDirectory': coverDirectory.path,
+        },
+      ).timeout(timeout);
+      return _Metadata.fromJson(metadata);
+    } catch (exception, stacktrace) {
+      print(exception.toString());
+      print(stacktrace.toString());
+      return _Metadata.fromJson(
+        {
+          'uri': uri.toString(),
+        },
+      );
+    }
   }
 }
 
