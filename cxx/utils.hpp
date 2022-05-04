@@ -45,7 +45,31 @@ char* strndup(const char* array, size_t size) {
 #endif
 
 auto TO_WIDESTRING = [](std::string string) -> std::wstring {
-  return std::wstring(string.begin(), string.end());
+#ifdef _WIN32
+  if (string.empty()) {
+    return std::wstring();
+  }
+  int target_length = ::MultiByteToWideChar(
+      CP_UTF8, MB_ERR_INVALID_CHARS, string.data(),
+      static_cast<int>(string.length()), nullptr, 0);
+  if (target_length == 0) {
+    return std::wstring();
+  }
+  std::wstring wide_string;
+  wide_string.resize(target_length);
+  int converted_length = ::MultiByteToWideChar(
+      CP_UTF8, MB_ERR_INVALID_CHARS, string.data(),
+      static_cast<int>(string.length()), wide_string.data(), target_length);
+  if (converted_length == 0) {
+    return std::wstring();
+  }
+  return wide_string;
+#elif __linux__
+  size_t target_length = mbstowcs(nullptr, string.data(), 0);
+  std::vector<wchar_t> buffer(target_length);
+  wcstombs(buffer.data(), string.data(), 0);
+  return std::wstring(buffer.begin(), std::prev(buffer.end()));
+#endif
 };
 
 auto TO_STRING = [](std::wstring wide_string) -> std::string {
